@@ -30,7 +30,7 @@
     .container {
       max-width: 700px;
       margin: 0 auto;
-      padding: 20px 18px 24px;
+      padding: 20px 18px 20px;
       box-sizing: border-box;
     }
 
@@ -51,27 +51,27 @@
     .date-row {
       text-align: center;
       font-size: 24px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .divider {
       border-top: 2px solid #000;
-      margin: 10px 0 16px 0;
+      margin: 8px 0 14px 0;
     }
 
     /* 天气 */
     .weather-block {
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .temp-main {
-      font-size: 48px;
+      font-size: 46px;
       font-weight: bold;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .weather-desc {
       font-size: 22px;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .weather-extra {
       font-size: 18px;
@@ -84,62 +84,54 @@
     /* 诗句 */
     .quote-block {
       text-align: center;
-      margin: 6px 0 8px;
+      margin: 4px 0 6px;
     }
     .quote-main {
-      font-size: 22px;
-      margin-bottom: 4px;
+      font-size: 20px;
+      margin-bottom: 3px;
     }
     .quote-sub {
-      font-size: 18px;
+      font-size: 16px;
       opacity: 0.8;
     }
 
     /* 世界时间 */
     .worldtime-title {
       text-align: center;
-      font-size: 22px;
-      margin: 8px 0 6px;
+      font-size: 20px;
+      margin: 8px 0 4px;
     }
 
-    /* 使用 flex + wrap，保证两两并列 */
-    .worldtime-grid {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-      -webkit-box-pack: start;
-          -ms-flex-pack: start;
-              justify-content: flex-start;
+    .worldtime-table {
+      width: 100%;
+      border-collapse: collapse;
       font-variant-numeric: tabular-nums;
     }
-
-    .wt-card {
-      box-sizing: border-box;
-      width: 50%;              /* 两列 */
-      padding: 6px 4px 8px;
+    .worldtime-table td {
       border: 1px solid #000;
+      padding: 4px 2px 6px;
       text-align: center;
+      box-sizing: border-box;
+      width: 50%; /* 两列 */
     }
     .wt-city {
-      font-size: 16px;
-      margin-bottom: 2px;
+      font-size: 14px;
+      margin-bottom: 1px;
     }
     .wt-time {
-      font-size: 22px;         /* 稍微压一点高度 */
+      font-size: 20px;
       font-weight: bold;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .wt-offset {
-      font-size: 14px;
+      font-size: 12px;
       opacity: 0.75;
     }
 
     .footer-note {
-      margin-top: 8px;
+      margin-top: 6px;
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
       opacity: 0.6;
     }
   </style>
@@ -175,28 +167,32 @@
 
     <!-- 世界时间 -->
     <div class="worldtime-title">World Time ｡ﾟ(ﾟ´▽`ﾟ)ﾟ｡</div>
-    <div class="worldtime-grid">
-      <div class="wt-card">
-        <div class="wt-city">London</div>
-        <div class="wt-time" id="time-lon">--:--</div>
-        <div class="wt-offset">UTC +0</div>
-      </div>
-      <div class="wt-card">
-        <div class="wt-city">Beijing</div>
-        <div class="wt-time" id="time-bj">--:--</div>
-        <div class="wt-offset">UTC +8</div>
-      </div>
-      <div class="wt-card">
-        <div class="wt-city">Toronto</div>
-        <div class="wt-time" id="time-tor">--:--</div>
-        <div class="wt-offset">UTC −5</div>
-      </div>
-      <div class="wt-card">
-        <div class="wt-city">Tokyo</div>
-        <div class="wt-time" id="time-tyo">--:--</div>
-        <div class="wt-offset">UTC +9</div>
-      </div>
-    </div>
+    <table class="worldtime-table">
+      <tr>
+        <td>
+          <div class="wt-city">London</div>
+          <div class="wt-time" id="time-lon">--:--</div>
+          <div class="wt-offset">UTC +0</div>
+        </td>
+        <td>
+          <div class="wt-city">Beijing</div>
+          <div class="wt-time" id="time-bj">--:--</div>
+          <div class="wt-offset">UTC +8</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="wt-city">Toronto</div>
+          <div class="wt-time" id="time-tor">--:--</div>
+          <div class="wt-offset">UTC −5</div>
+        </td>
+        <td>
+          <div class="wt-city">Tokyo</div>
+          <div class="wt-time" id="time-tyo">--:--</div>
+          <div class="wt-offset">UTC +9</div>
+        </td>
+      </tr>
+    </table>
 
     <div class="footer-note">
       页面每 30 分钟自动刷新一次 · 把 Kindle 倒过来看，就当自己在重启一天 (＝ω＝)
