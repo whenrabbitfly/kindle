@@ -2,170 +2,171 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Kindle Upside-down Dashboard</title>
+  <title>Kindle Landscape Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="1800">
 
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
+      padding: 20px 28px;
       background: #fff;
       color: #000;
-      overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Microsoft Yahei", sans-serif;
+      line-height: 1.5;
     }
 
-    /* 整页倒立：旋转 180°，你把 Kindle 倒过来就正了 */
-    .rot-wrapper {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      -webkit-transform: rotate(180deg) translate(-50%, -50%);
-      transform: rotate(180deg) translate(-50%, -50%);
-      -webkit-transform-origin: center center;
-      transform-origin: center center;
-    }
-
+    /* 页面横向布局容器 */
     .container {
-      width: 580px;          /* 适配 600 宽屏幕 */
-      max-width: 580px;
-      padding: 16px 20px;
-      box-sizing: border-box;
-      background: #fff;
-      line-height: 1.4;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* 顶部行：城市 + 表情 + 日期 */
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .city {
-      text-align: center;
-      font-size: 28px;
+      font-size: 38px;
       font-weight: bold;
       letter-spacing: 2px;
-      margin-bottom: 4px;
     }
+
     .emoji {
-      text-align: center;
-      font-size: 16px;
-      opacity: 0.8;
-      margin-bottom: 6px;
-    }
-    .date-row {
-      text-align: center;
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .divider {
-      border-top: 1px solid #000;
-      margin: 6px 0 10px 0;
-    }
-
-    .weather-block {
-      text-align: center;
-      margin-bottom: 8px;
-    }
-    .weather-line {
-      font-size: 14px;
-    }
-    .temp-main {
-      font-size: 30px;
-      font-weight: bold;
-      margin-right: 6px;
-    }
-    .weather-desc {
-      font-size: 18px;
-      margin-right: 6px;
-    }
-    .weather-extra {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-
-    .quote-block {
-      text-align: center;
-      margin-top: 4px;
-      margin-bottom: 6px;
-    }
-    .quote-main {
-      font-size: 18px;
-      margin-bottom: 2px;
-    }
-    .quote-sub {
-      font-size: 14px;
-      opacity: 0.75;
-    }
-
-    .worldtime-title {
-      text-align: center;
-      font-size: 16px;
-      margin: 6px 0 4px 0;
-    }
-
-    .worldtime-grid {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-      gap: 6px;
-      justify-content: space-between;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .wt-card {
-      -webkit-box-flex: 1;
-          -ms-flex: 1 1 calc(50% - 6px);
-              flex: 1 1 calc(50% - 6px);
-      min-width: 130px;
-      border: 1px solid #000;
-      padding: 4px 4px 6px;
-      text-align: center;
-    }
-
-    .wt-city {
-      font-size: 12px;
-      opacity: 0.8;
-      margin-bottom: 2px;
-    }
-    .wt-time {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 1px;
-    }
-    .wt-offset {
-      font-size: 11px;
+      font-size: 26px;
       opacity: 0.7;
     }
 
-    .footer-note {
+    .date {
+      font-size: 26px;
+    }
+
+    .divider {
+      border-top: 2px solid #000;
+      margin: 0;
+    }
+
+    /* 中间主区域：天气（左）+ 诗句（右） */
+    .middle-zone {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .weather-block {
+      flex: 1;
+      padding-left: 10px;
+    }
+
+    .temp-main {
+      font-size: 52px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .weather-desc {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .weather-extra {
+      font-size: 20px;
+      opacity: 0.75;
+    }
+
+    .quote-block {
+      flex: 1;
+      text-align: right;
+      padding-right: 10px;
+      align-self: center;
+    }
+
+    .quote-main {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .quote-sub {
+      font-size: 20px;
+      opacity: 0.7;
       margin-top: 6px;
+    }
+
+    /* 世界时钟大卡片（横向排列） */
+    .worldtime-title {
       text-align: center;
-      font-size: 11px;
+      font-size: 26px;
+      margin-top: 10px;
+    }
+
+    .worldtime-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      justify-content: space-between;
+    }
+
+    .wt-card {
+      flex: 1;
+      border: 1px solid #000;
+      padding: 10px;
+      text-align: center;
+      min-width: 150px;
+    }
+
+    .wt-city {
+      font-size: 18px;
+    }
+
+    .wt-time {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 4px 0;
+    }
+
+    .wt-offset {
+      font-size: 16px;
+      opacity: 0.75;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 16px;
       opacity: 0.6;
+      margin-top: 12px;
     }
   </style>
 </head>
-<body>
-  <div class="rot-wrapper">
-    <div class="container">
-      <!-- 顶部：城市 + 表情 + 日期 -->
-      <div class="city">MANCHESTER</div>
-      <div class="emoji">(๑•̀ㅂ•́)و✧ keep going</div>
-      <div class="date-row" id="dateRow">Loading...</div>
 
-      <div class="divider"></div>
+<body>
+  <div class="container">
+
+    <!-- 顶部 -->
+    <div class="top-row">
+      <div class="city">MANCHESTER</div>
+      <div class="emoji">(๑•̀ㅂ•́)و✧</div>
+      <div class="date" id="dateRow">Loading...</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 中间主区域 -->
+    <div class="middle-zone">
 
       <!-- 天气 -->
       <div class="weather-block">
-        <div class="weather-line" id="weatherLoading">
-          加载天气中… (´･ω･`)
-        </div>
-        <div class="weather-line" id="weatherContent" style="display:none;">
-          <span class="temp-main" id="tempNow"></span>
-          <span class="weather-desc" id="weatherDesc"></span>
-          <span class="weather-extra" id="weatherExtra"></span>
+        <div id="weatherLoading">加载天气中… (´･ω･`)</div>
+        <div id="weatherContent" style="display:none;">
+          <div class="temp-main" id="tempNow"></div>
+          <div class="weather-desc" id="weatherDesc"></div>
+          <div class="weather-extra" id="weatherExtra"></div>
         </div>
       </div>
 
@@ -175,59 +176,53 @@
         <div class="quote-sub">—— 《星际穿越》 Do not go gentle into that good night</div>
       </div>
 
-      <div class="divider"></div>
+    </div>
 
-      <!-- 世界时钟 -->
-      <div class="worldtime-title">World Time ｡ﾟ(ﾟ´▽`ﾟ)ﾟ｡</div>
-      <div class="worldtime-grid">
-        <div class="wt-card">
-          <div class="wt-city">London</div>
-          <div class="wt-time" id="time-lon">--:--</div>
-          <div class="wt-offset">UTC +0</div>
-        </div>
-        <div class="wt-card">
-          <div class="wt-city">Beijing</div>
-          <div class="wt-time" id="time-bj">--:--</div>
-          <div class="wt-offset">UTC +8</div>
-        </div>
-        <div class="wt-card">
-          <div class="wt-city">Toronto</div>
-          <div class="wt-time" id="time-tor">--:--</div>
-          <div class="wt-offset">UTC −5</div>
-        </div>
-        <div class="wt-card">
-          <div class="wt-city">Tokyo</div>
-          <div class="wt-time" id="time-tyo">--:--</div>
-          <div class="wt-offset">UTC +9</div>
-        </div>
+    <div class="divider"></div>
+
+    <!-- 世界时钟 -->
+    <div class="worldtime-title">World Time ｡ﾟ(ﾟ´▽`ﾟ)ﾟ｡</div>
+
+    <div class="worldtime-row">
+      <div class="wt-card">
+        <div class="wt-city">London</div>
+        <div class="wt-time" id="time-lon">--:--</div>
+        <div class="wt-offset">UTC +0</div>
       </div>
-
-      <div class="footer-note">
-        每 30 分钟自动刷新 · 倒过来看更有精神 (＝ω＝)
+      <div class="wt-card">
+        <div class="wt-city">Beijing</div>
+        <div class="wt-time" id="time-bj">--:--</div>
+        <div class="wt-offset">UTC +8</div>
+      </div>
+      <div class="wt-card">
+        <div class="wt-city">Toronto</div>
+        <div class="wt-time" id="time-tor">--:--</div>
+        <div class="wt-offset">UTC −5</div>
+      </div>
+      <div class="wt-card">
+        <div class="wt-city">Tokyo</div>
+        <div class="wt-time" id="time-tyo">--:--</div>
+        <div class="wt-offset">UTC +9</div>
       </div>
     </div>
+
+    <div class="footer">页面每 30 分钟自动刷新一次 · 请保持 Wi-Fi 连接 (＝ω＝)</div>
+
   </div>
 
   <script>
-    // 补零
-    function pad(n) {
-      return n < 10 ? "0" + n : "" + n;
-    }
-
     // 日期
     (function setDate() {
-      var d = new Date();
-      var w = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-      var y = d.getFullYear();
-      var m = pad(d.getMonth() + 1);
-      var day = pad(d.getDate());
-      var el = document.getElementById("dateRow");
-      if (el) {
-        el.textContent = y + "-" + m + "-" + day + " " + w[d.getDay()];
-      }
+      const d = new Date();
+      const w = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      document.getElementById("dateRow").textContent =
+        `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${w[d.getDay()]}`;
     })();
 
-    // 天气描述
+    // 天气
+    const weatherUrl =
+      "https://api.open-meteo.com/v1/forecast?latitude=53.48&longitude=-2.24&current_weather=true";
+
     function getWeatherDesc(code){
       if(code===0) return "Clear sky / 晴";
       if(code===1||code===2) return "Partly cloudy / 少云";
@@ -238,74 +233,42 @@
       return "Weather / 天气";
     }
 
-    // 天气（XHR，兼容老浏览器）
     (function loadWeather(){
-      var loadingEl = document.getElementById("weatherLoading");
-      var contentEl = document.getElementById("weatherContent");
-      var tempEl = document.getElementById("tempNow");
-      var descEl = document.getElementById("weatherDesc");
-      var extraEl = document.getElementById("weatherExtra");
+      fetch(weatherUrl)
+        .then(r => r.json())
+        .then(data => {
+          const cw = data.current_weather;
+          if(!cw){ document.getElementById("weatherLoading").textContent="无法获取天气"; return; }
 
-      if (!loadingEl || !contentEl || !tempEl || !descEl || !extraEl) return;
+          document.getElementById("tempNow").textContent = Math.round(cw.temperature) + "°C";
+          document.getElementById("weatherDesc").textContent = getWeatherDesc(cw.weathercode);
+          document.getElementById("weatherExtra").textContent = "风速: " + Math.round(cw.windspeed) + " km/h";
 
-      var xhr = new XMLHttpRequest();
-      xhr.open(
-        "GET",
-        "https://api.open-meteo.com/v1/forecast?latitude=53.48&longitude=-2.24&current_weather=true",
-        true
-      );
-      xhr.onreadystatechange = function(){
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            try {
-              var data = JSON.parse(xhr.responseText);
-              if (data && data.current_weather) {
-                var cw = data.current_weather;
-                tempEl.textContent = Math.round(cw.temperature) + "°C";
-                descEl.textContent = getWeatherDesc(cw.weathercode);
-                extraEl.textContent = "风速 " + Math.round(cw.windspeed) + " km/h";
-                loadingEl.style.display = "none";
-                contentEl.style.display = "block";
-              } else {
-                loadingEl.textContent = "无法获取天气 (╥﹏╥)";
-              }
-            } catch(e) {
-              loadingEl.textContent = "解析天气失败 (╯°□°）╯";
-            }
-          } else {
-            loadingEl.textContent = "天气加载失败 (" + xhr.status + ")";
-          }
-        }
-      };
-      xhr.onerror = function(){
-        loadingEl.textContent = "网络错误，无法获取天气 (╥﹏╥)";
-      };
-      xhr.send(null);
+          weatherLoading.style.display = "none";
+          weatherContent.style.display = "block";
+        })
     })();
 
     // 世界时间
-    function updateWorldTime(){
-      var now = new Date();
-      var utcMs = now.getTime() + now.getTimezoneOffset()*60000;
+    function pad(n){ return n<10? "0"+n : ""+n; }
+    function updateTime(){
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset()*60000;
 
-      function timeWithOffset(offsetHours){
-        var d = new Date(utcMs + offsetHours*3600000);
-        return pad(d.getHours()) + ":" + pad(d.getMinutes());
+      function tz(offset){
+        const d = new Date(utc + offset*3600000);
+        return pad(d.getHours())+":"+pad(d.getMinutes());
       }
 
-      var lon = document.getElementById("time-lon");
-      var bj  = document.getElementById("time-bj");
-      var tor = document.getElementById("time-tor");
-      var tyo = document.getElementById("time-tyo");
-
-      if (lon) lon.textContent = timeWithOffset(0);
-      if (bj)  bj.textContent  = timeWithOffset(8);
-      if (tor) tor.textContent = timeWithOffset(-5);
-      if (tyo) tyo.textContent = timeWithOffset(9);
+      document.getElementById("time-lon").textContent = tz(0);
+      document.getElementById("time-bj").textContent  = tz(8);
+      document.getElementById("time-tor").textContent = tz(-5);
+      document.getElementById("time-tyo").textContent = tz(9);
     }
 
-    updateWorldTime();
-    setInterval(updateWorldTime, 60000);
+    updateTime();
+    setInterval(updateTime,60000);
   </script>
+
 </body>
 </html>
