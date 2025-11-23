@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Kindle Dashboard - Manchester</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 每30分钟自动刷新一次，Kindle 也支持这种 meta 刷新 -->
+  <!-- 每30分钟自动刷新一次 -->
   <meta http-equiv="refresh" content="1800">
 
   <style>
@@ -24,6 +24,13 @@
       text-align: center;
       font-size: 24px;
       letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .city-small {
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.7;
       margin-bottom: 12px;
     }
 
@@ -33,11 +40,13 @@
       margin-bottom: 24px;
     }
 
-    .weather-block {
+    .line {
       border-top: 1px solid #000;
-      border-bottom: 1px solid #000;
-      padding: 16px 0;
-      margin-bottom: 24px;
+      margin: 0 0 24px 0;
+    }
+
+    .weather-block {
+      padding: 16px 0 24px 0;
       text-align: center;
     }
 
@@ -60,7 +69,6 @@
     .quote-block {
       margin-top: 24px;
       padding-top: 16px;
-      border-top: 1px solid #000;
       text-align: center;
       line-height: 1.6;
     }
@@ -76,10 +84,37 @@
     }
 
     .footer-note {
-      margin-top: 24px;
+      margin-top: 16px;
       font-size: 12px;
       text-align: center;
       opacity: 0.6;
+    }
+
+    .worldtime-block {
+      margin-top: 8px;
+      padding: 16px 0 8px 0;
+      text-align: center;
+    }
+
+    .wt-title {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .wt-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin: 3px 40px;
+    }
+
+    .wt-row span:first-child {
+      text-align: left;
+    }
+
+    .wt-row span:last-child {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
     }
   </style>
 </head>
@@ -87,11 +122,14 @@
   <div class="container">
     <!-- 城市 & 日期 -->
     <div class="city">MANCHESTER</div>
+    <div class="city-small">(๑•̀ㅂ•́)و✧ keep going</div>
     <div class="date-row" id="dateRow">加载日期中…</div>
 
-    <!-- 天气信息（通过 JS 填充） -->
+    <div class="line"></div>
+
+    <!-- 天气信息 -->
     <div class="weather-block">
-      <div id="weatherLoading">加载天气中…</div>
+      <div id="weatherLoading">加载天气中… ( ´•̥̥̥ω•̥̥̥` )</div>
       <div id="weatherContent" style="display:none;">
         <div class="temp-main" id="tempNow"></div>
         <div class="weather-desc" id="weatherDesc"></div>
@@ -99,14 +137,39 @@
       </div>
     </div>
 
+    <div class="line"></div>
+
+    <!-- 世界时间 -->
+    <div class="worldtime-block">
+      <div class="wt-title">World Time (o´▽`o)</div>
+      <div class="wt-row">
+        <span>London</span>
+        <span id="time-lon">--:--</span>
+      </div>
+      <div class="wt-row">
+        <span>Beijing</span>
+        <span id="time-bj">--:--</span>
+      </div>
+      <div class="wt-row">
+        <span>Toronto</span>
+        <span id="time-tor">--:--</span>
+      </div>
+      <div class="wt-row">
+        <span>Tokyo</span>
+        <span id="time-tyo">--:--</span>
+      </div>
+    </div>
+
+    <div class="line"></div>
+
     <!-- 提示语 -->
     <div class="quote-block">
-      <div class="quote-main">不要温和地走进那个良夜</div>
+      <div class="quote-main">不要温和地走进那个良夜 (ง •̀_•́)ง</div>
       <div class="quote-sub">—— 《星际穿越》 / Do not go gentle into that good night</div>
     </div>
 
     <div class="footer-note">
-      页面每 30 分钟自动刷新一次 · 保持 Wi-Fi 连接以更新天气
+      页面每 30 分钟自动刷新一次 · 保持 Wi-Fi 连接以更新天气 (＝ω＝)
     </div>
   </div>
 
@@ -120,7 +183,7 @@
       const m = String(now.getMonth() + 1).padStart(2, '0');
       const d = String(now.getDate()).padStart(2, '0');
       const w = weekdays[now.getDay()];
-      dateEl.textContent = `${y}-${m}-${d}   ${w}`;
+      dateEl.textContent = `${y}-${m}-${d} ${w}`;
     })();
 
     // ===== 天气部分（使用 open-meteo 免费API，无需秘钥） =====
@@ -128,7 +191,6 @@
     const weatherUrl = "https://api.open-meteo.com/v1/forecast?latitude=53.48&longitude=-2.24&current_weather=true";
 
     function getWeatherDesc(code) {
-      // 简化版天气代码说明，够 Kindle 看板用
       if (code === 0) return "Clear sky / 晴";
       if (code === 1 || code === 2) return "Partly cloudy / 少云";
       if (code === 3) return "Cloudy / 多云";
@@ -147,12 +209,11 @@
       const descEl = document.getElementById('weatherDesc');
       const extraEl = document.getElementById('weatherExtra');
 
-      // 考虑 Kindle 浏览器较弱：使用非常简单的 fetch
       fetch(weatherUrl)
         .then(function(res) { return res.json(); })
         .then(function(data) {
           if (!data || !data.current_weather) {
-            loadingEl.textContent = "无法获取天气";
+            loadingEl.textContent = "无法获取天气 (╥﹏╥)";
             return;
           }
           const cw = data.current_weather;
@@ -168,9 +229,34 @@
           contentEl.style.display = "block";
         })
         .catch(function() {
-          loadingEl.textContent = "天气加载失败";
+          loadingEl.textContent = "天气加载失败 (╯°□°）╯︵ ┻━┻";
         });
     })();
+
+    // ===== 世界时间：伦敦 / 北京 / 多伦多 / 东京 =====
+    function pad(n) {
+      return n < 10 ? '0' + n : '' + n;
+    }
+
+    function updateWorldTime() {
+      const now = new Date();
+      const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+
+      function timeForOffset(offsetHours) {
+        const d = new Date(utcMs + offsetHours * 3600000);
+        return pad(d.getHours()) + ':' + pad(d.getMinutes());
+      }
+
+      // 当前季节假定：伦敦 GMT（UTC+0），多伦多 UTC-5，北京 UTC+8，东京 UTC+9
+      document.getElementById('time-lon').textContent = timeForOffset(0);
+      document.getElementById('time-bj').textContent  = timeForOffset(8);
+      document.getElementById('time-tor').textContent = timeForOffset(-5);
+      document.getElementById('time-tyo').textContent = timeForOffset(9);
+    }
+
+    updateWorldTime();
+    // 每分钟更新一次时间
+    setInterval(updateWorldTime, 60000);
   </script>
 </body>
 </html>
