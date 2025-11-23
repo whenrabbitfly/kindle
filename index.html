@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Kindle Rotated Dashboard</title>
+  <title>Kindle Rotated Dashboard (ES5)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="1800">
 
@@ -23,11 +23,12 @@
       position: fixed;
       top: 50%;
       left: 50%;
+      -webkit-transform: rotate(90deg) translate(-50%, -50%);
       transform: rotate(90deg) translate(-50%, -50%);
+      -webkit-transform-origin: center center;
       transform-origin: center center;
     }
 
-    /* 内容区域做得比较矮，避免被裁切 */
     .container {
       width: 580px;              /* 适配 600px 宽的屏幕 */
       max-width: 580px;
@@ -39,9 +40,15 @@
     }
 
     .top-row {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      -webkit-box-align: baseline;
+          -ms-flex-align: baseline;
+              align-items: baseline;
       margin-bottom: 6px;
     }
 
@@ -104,14 +111,20 @@
     }
 
     .wt-row {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
-      justify-content: space-between;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
       font-size: 16px;
       font-variant-numeric: tabular-nums;
     }
 
     .wt-item {
-      flex: 1;
+      -webkit-box-flex: 1;
+          -ms-flex: 1;
+              flex: 1;
       text-align: center;
     }
 
@@ -191,21 +204,26 @@
   </div>
 
   <script>
+    // 简单的补零函数（不用 padStart）
+    function pad(n) {
+      return n < 10 ? "0" + n : "" + n;
+    }
+
     // 日期
     (function setDate() {
-      const d = new Date();
-      const w = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-      const y = d.getFullYear();
-      const m = String(d.getMonth()+1).padStart(2,'0');
-      const day = String(d.getDate()).padStart(2,'0');
-      document.getElementById("dateRow").textContent =
-        `${y}-${m}-${day} ${w[d.getDay()]}`;
+      var d = new Date();
+      var w = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      var y = d.getFullYear();
+      var m = pad(d.getMonth() + 1);
+      var day = pad(d.getDate());
+      var text = y + "-" + m + "-" + day + " " + w[d.getDay()];
+      var el = document.getElementById("dateRow");
+      if (el) {
+        el.textContent = text;
+      }
     })();
 
-    // 天气（Manchester）
-    const weatherUrl =
-      "https://api.open-meteo.com/v1/forecast?latitude=53.48&longitude=-2.24&current_weather=true";
-
+    // 天气描述
     function getWeatherDesc(code){
       if(code===0) return "Clear sky / 晴";
       if(code===1||code===2) return "Partly cloudy / 少云";
@@ -216,48 +234,68 @@
       return "Weather / 天气";
     }
 
+    // 用 XMLHttpRequest 取 open-meteo（比 fetch 更兼容老浏览器）
     (function loadWeather(){
-      const loadingEl = document.getElementById("weatherLoading");
-      const contentEl = document.getElementById("weatherContent");
-      const tempEl = document.getElementById("tempNow");
-      const descEl = document.getElementById("weatherDesc");
-      const extraEl = document.getElementById("weatherExtra");
+      var loadingEl = document.getElementById("weatherLoading");
+      var contentEl = document.getElementById("weatherContent");
+      var tempEl = document.getElementById("tempNow");
+      var descEl = document.getElementById("weatherDesc");
+      var extraEl = document.getElementById("weatherExtra");
 
-      fetch(weatherUrl)
-        .then(r => r.json())
-        .then(data => {
-          if(!data || !data.current_weather){
-            loadingEl.textContent = "无法获取天气 (╥﹏╥)";
-            return;
+      if (!loadingEl || !contentEl || !tempEl || !descEl || !extraEl) {
+        return;
+      }
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://api.open-meteo.com/v1/forecast?latitude=53.48&longitude=-2.24&current_weather=true", true);
+      xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            try {
+              var data = JSON.parse(xhr.responseText);
+              if (data && data.current_weather) {
+                var cw = data.current_weather;
+                tempEl.textContent = Math.round(cw.temperature) + "°C";
+                descEl.textContent = getWeatherDesc(cw.weathercode);
+                extraEl.textContent = "风速 " + Math.round(cw.windspeed) + " km/h";
+                loadingEl.style.display = "none";
+                contentEl.style.display = "block";
+              } else {
+                loadingEl.textContent = "无法获取天气 (╥﹏╥)";
+              }
+            } catch(e) {
+              loadingEl.textContent = "解析天气失败 (╯°□°）╯";
+            }
+          } else {
+            loadingEl.textContent = "天气加载失败 (" + xhr.status + ")";
           }
-          const cw = data.current_weather;
-          tempEl.textContent = Math.round(cw.temperature) + "°C";
-          descEl.textContent = getWeatherDesc(cw.weathercode);
-          extraEl.textContent = "风速 " + Math.round(cw.windspeed) + " km/h";
-          loadingEl.style.display = "none";
-          contentEl.style.display = "block";
-        })
-        .catch(() => {
-          loadingEl.textContent = "天气加载失败 (╯°□°）╯︵ ┻━┻";
-        });
+        }
+      };
+      xhr.onerror = function(){
+        loadingEl.textContent = "网络错误，无法获取天气 (╥﹏╥)";
+      };
+      xhr.send(null);
     })();
 
-    // 世界时间
-    function pad(n){ return n < 10 ? "0"+n : ""+n; }
-
+    // 世界时间（本地时间 + 时区偏移，不依赖网络）
     function updateWorldTime(){
-      const now = new Date();
-      const utcMs = now.getTime() + now.getTimezoneOffset()*60000;
+      var now = new Date();
+      var utcMs = now.getTime() + now.getTimezoneOffset()*60000;
 
       function timeWithOffset(offsetHours){
-        const d = new Date(utcMs + offsetHours*3600000);
+        var d = new Date(utcMs + offsetHours*3600000);
         return pad(d.getHours()) + ":" + pad(d.getMinutes());
       }
 
-      document.getElementById("time-lon").textContent = timeWithOffset(0);
-      document.getElementById("time-bj").textContent  = timeWithOffset(8);
-      document.getElementById("time-tor").textContent = timeWithOffset(-5);
-      document.getElementById("time-tyo").textContent = timeWithOffset(9);
+      var lon = document.getElementById("time-lon");
+      var bj  = document.getElementById("time-bj");
+      var tor = document.getElementById("time-tor");
+      var tyo = document.getElementById("time-tyo");
+
+      if (lon) lon.textContent = timeWithOffset(0);
+      if (bj)  bj.textContent  = timeWithOffset(8);
+      if (tor) tor.textContent = timeWithOffset(-5);
+      if (tyo) tyo.textContent = timeWithOffset(9);
     }
 
     updateWorldTime();
