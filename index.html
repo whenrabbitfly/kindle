@@ -19,7 +19,7 @@
       line-height: 1.5;
     }
 
-    /* 整页上下倒立：Kindle 整机倒过来就是正的 */
+    /* 整页上下倒立：Kindle 整机倒过来时就是正的 */
     body {
       -webkit-transform: rotate(180deg);
       transform: rotate(180deg);
@@ -30,7 +30,7 @@
     .container {
       max-width: 700px;
       margin: 0 auto;
-      padding: 20px 18px 26px;
+      padding: 20px 18px 24px;
       box-sizing: border-box;
     }
 
@@ -56,13 +56,13 @@
 
     .divider {
       border-top: 2px solid #000;
-      margin: 10px 0 18px 0;
+      margin: 10px 0 16px 0;
     }
 
     /* 天气 */
     .weather-block {
       text-align: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .temp-main {
       font-size: 48px;
@@ -84,7 +84,7 @@
     /* 诗句 */
     .quote-block {
       text-align: center;
-      margin: 8px 0 10px;
+      margin: 6px 0 8px;
     }
     .quote-main {
       font-size: 22px;
@@ -99,30 +99,35 @@
     .worldtime-title {
       text-align: center;
       font-size: 22px;
-      margin: 10px 0 8px;
+      margin: 8px 0 6px;
     }
 
+    /* 使用 flex + wrap，保证两两并列 */
     .worldtime-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;  /* 两列 */
-      grid-gap: 10px;                  /* 卡片间距 */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start;
       font-variant-numeric: tabular-nums;
-      box-sizing: border-box;
     }
 
     .wt-card {
-      border: 1px solid #000;
-      padding: 8px 6px 10px;
-      text-align: center;
       box-sizing: border-box;
+      width: 50%;              /* 两列 */
+      padding: 6px 4px 8px;
+      border: 1px solid #000;
+      text-align: center;
     }
     .wt-city {
       font-size: 16px;
       margin-bottom: 2px;
     }
     .wt-time {
-      font-size: 24px;
+      font-size: 22px;         /* 稍微压一点高度 */
       font-weight: bold;
       margin-bottom: 2px;
     }
@@ -132,7 +137,7 @@
     }
 
     .footer-note {
-      margin-top: 10px;
+      margin-top: 8px;
       text-align: center;
       font-size: 14px;
       opacity: 0.6;
@@ -168,7 +173,7 @@
 
     <div class="divider"></div>
 
-    <!-- 世界时间 2×2 -->
+    <!-- 世界时间 -->
     <div class="worldtime-title">World Time ｡ﾟ(ﾟ´▽`ﾟ)ﾟ｡</div>
     <div class="worldtime-grid">
       <div class="wt-card">
@@ -228,7 +233,7 @@
       return "Weather / 天气";
     }
 
-    // 天气（用 XHR，兼容 Kindle 7）
+    // 天气（XHR，兼容 Kindle 7）
     (function loadWeather(){
       var loadingEl = document.getElementById("weatherLoading");
       var contentEl = document.getElementById("weatherContent");
