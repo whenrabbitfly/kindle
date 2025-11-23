@@ -4,130 +4,120 @@
   <meta charset="UTF-8">
   <title>Kindle Dashboard - Manchester</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 每30分钟自动刷新一次 -->
   <meta http-equiv="refresh" content="1800">
 
   <style>
     body {
       margin: 0;
-      padding: 24px;
+      padding: 32px;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Microsoft Yahei", sans-serif;
       background: #ffffff;
       color: #000000;
+      line-height: 1.6;
     }
     .container {
-      max-width: 750px;
+      max-width: 800px;
       margin: 0 auto;
     }
 
     .city {
       text-align: center;
-      font-size: 24px;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin-bottom: 6px;
     }
 
     .city-small {
       text-align: center;
-      font-size: 12px;
+      font-size: 18px;
       opacity: 0.7;
-      margin-bottom: 12px;
+      margin-bottom: 18px;
     }
 
     .date-row {
       text-align: center;
-      font-size: 18px;
-      margin-bottom: 24px;
+      font-size: 26px;
+      margin-bottom: 28px;
     }
 
     .line {
-      border-top: 1px solid #000;
-      margin: 0 0 24px 0;
+      border-top: 2px solid #000;
+      margin: 16px 0 32px 0;
     }
 
     .weather-block {
-      padding: 16px 0 24px 0;
       text-align: center;
+      padding-bottom: 20px;
     }
 
     .temp-main {
-      font-size: 32px;
+      font-size: 42px;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .weather-desc {
-      font-size: 16px;
-      margin-bottom: 4px;
+      font-size: 22px;
+      margin-bottom: 6px;
     }
 
     .weather-extra {
-      font-size: 14px;
+      font-size: 20px;
       opacity: 0.8;
-    }
-
-    .quote-block {
-      margin-top: 24px;
-      padding-top: 16px;
-      text-align: center;
-      line-height: 1.6;
-    }
-
-    .quote-main {
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-
-    .quote-sub {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-
-    .footer-note {
-      margin-top: 16px;
-      font-size: 12px;
-      text-align: center;
-      opacity: 0.6;
     }
 
     .worldtime-block {
-      margin-top: 8px;
-      padding: 16px 0 8px 0;
       text-align: center;
+      margin: 12px 0 12px 0;
     }
 
     .wt-title {
-      font-size: 16px;
-      margin-bottom: 8px;
+      font-size: 26px;
+      margin-bottom: 12px;
     }
 
     .wt-row {
       display: flex;
       justify-content: space-between;
-      font-size: 14px;
-      margin: 3px 40px;
-    }
-
-    .wt-row span:first-child {
-      text-align: left;
-    }
-
-    .wt-row span:last-child {
-      text-align: right;
+      font-size: 22px;
+      margin: 6px 50px;
       font-variant-numeric: tabular-nums;
+    }
+
+    .quote-block {
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .quote-main {
+      font-size: 26px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .quote-sub {
+      font-size: 20px;
+      opacity: 0.7;
+    }
+
+    .footer-note {
+      margin-top: 26px;
+      font-size: 16px;
+      text-align: center;
+      opacity: 0.6;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- 城市 & 日期 -->
+
     <div class="city">MANCHESTER</div>
     <div class="city-small">(๑•̀ㅂ•́)و✧ keep going</div>
     <div class="date-row" id="dateRow">加载日期中…</div>
 
     <div class="line"></div>
 
-    <!-- 天气信息 -->
     <div class="weather-block">
       <div id="weatherLoading">加载天气中… ( ´•̥̥̥ω•̥̥̥` )</div>
       <div id="weatherContent" style="display:none;">
@@ -139,124 +129,84 @@
 
     <div class="line"></div>
 
-    <!-- 世界时间 -->
     <div class="worldtime-block">
       <div class="wt-title">World Time (o´▽`o)</div>
-      <div class="wt-row">
-        <span>London</span>
-        <span id="time-lon">--:--</span>
-      </div>
-      <div class="wt-row">
-        <span>Beijing</span>
-        <span id="time-bj">--:--</span>
-      </div>
-      <div class="wt-row">
-        <span>Toronto</span>
-        <span id="time-tor">--:--</span>
-      </div>
-      <div class="wt-row">
-        <span>Tokyo</span>
-        <span id="time-tyo">--:--</span>
-      </div>
+      <div class="wt-row"><span>London</span><span id="time-lon">--:--</span></div>
+      <div class="wt-row"><span>Beijing</span><span id="time-bj">--:--</span></div>
+      <div class="wt-row"><span>Toronto</span><span id="time-tor">--:--</span></div>
+      <div class="wt-row"><span>Tokyo</span><span id="time-tyo">--:--</span></div>
     </div>
 
     <div class="line"></div>
 
-    <!-- 提示语 -->
     <div class="quote-block">
       <div class="quote-main">不要温和地走进那个良夜 (ง •̀_•́)ง</div>
-      <div class="quote-sub">—— 《星际穿越》 / Do not go gentle into that good night</div>
+      <div class="quote-sub">—— 《星际穿越》 Do not go gentle into that good night</div>
     </div>
 
     <div class="footer-note">
-      页面每 30 分钟自动刷新一次 · 保持 Wi-Fi 连接以更新天气 (＝ω＝)
+      页面每 30 分钟自动刷新一次 · 请保持 Wi-Fi 连接更新天气 (＝ω＝)
     </div>
+
   </div>
 
   <script>
-    // 设置日期（使用浏览器本地时间）
     (function setDate() {
       const dateEl = document.getElementById('dateRow');
       const now = new Date();
-      const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
       const y = now.getFullYear();
-      const m = String(now.getMonth() + 1).padStart(2, '0');
-      const d = String(now.getDate()).padStart(2, '0');
+      const m = String(now.getMonth()+1).padStart(2,'0');
+      const d = String(now.getDate()).padStart(2,'0');
       const w = weekdays[now.getDay()];
       dateEl.textContent = `${y}-${m}-${d} ${w}`;
     })();
 
-    // ===== 天气部分（使用 open-meteo 免费API，无需秘钥） =====
-    // Manchester 大致坐标：53.48, -2.24
     const weatherUrl = "https://api.open-meteo.com/v1/forecast?latitude=53.48&longitude=-2.24&current_weather=true";
 
     function getWeatherDesc(code) {
-      if (code === 0) return "Clear sky / 晴";
-      if (code === 1 || code === 2) return "Partly cloudy / 少云";
-      if (code === 3) return "Cloudy / 多云";
-      if (code >= 45 && code <= 48) return "Fog / 有雾";
-      if (code >= 51 && code <= 67) return "Drizzle / 毛毛雨";
-      if (code >= 71 && code <= 77) return "Snow / 雪";
-      if (code >= 80 && code <= 82) return "Rain showers / 阵雨";
-      if (code >= 95) return "Thunderstorm / 雷暴";
+      if (code===0) return "Clear sky / 晴";
+      if (code===1||code===2) return "Partly cloudy / 少云";
+      if (code===3) return "Cloudy / 多云";
+      if (code>=45&&code<=48) return "Fog / 有雾";
+      if (code>=51&&code<=67) return "Drizzle / 毛毛雨";
+      if (code>=71&&code<=77) return "Snow / 雪";
+      if (code>=80&&code<=82) return "Rain showers / 阵雨";
+      if (code>=95) return "Thunderstorm / 雷暴";
       return "Weather / 天气";
     }
 
     (function loadWeather() {
-      const loadingEl = document.getElementById('weatherLoading');
-      const contentEl = document.getElementById('weatherContent');
-      const tempEl = document.getElementById('tempNow');
-      const descEl = document.getElementById('weatherDesc');
-      const extraEl = document.getElementById('weatherExtra');
-
       fetch(weatherUrl)
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
-          if (!data || !data.current_weather) {
-            loadingEl.textContent = "无法获取天气 (╥﹏╥)";
+        .then(r=>r.json())
+        .then(data=>{
+          if(!data||!data.current_weather){
+            document.getElementById('weatherLoading').textContent="无法获取天气 (╥﹏╥)";
             return;
           }
-          const cw = data.current_weather;
-          const temp = Math.round(cw.temperature);
-          const wind = Math.round(cw.windspeed);
-          const code = cw.weathercode;
-
-          tempEl.textContent = temp + "°C";
-          descEl.textContent = getWeatherDesc(code);
-          extraEl.textContent = "Wind 风速: " + wind + " km/h";
-
-          loadingEl.style.display = "none";
-          contentEl.style.display = "block";
+          const cw=data.current_weather;
+          document.getElementById('tempNow').textContent=Math.round(cw.temperature)+"°C";
+          document.getElementById('weatherDesc').textContent=getWeatherDesc(cw.weathercode);
+          document.getElementById('weatherExtra').textContent="Wind 风速: "+Math.round(cw.windspeed)+" km/h";
+          document.getElementById('weatherLoading').style.display="none";
+          document.getElementById('weatherContent').style.display="block";
         })
-        .catch(function() {
-          loadingEl.textContent = "天气加载失败 (╯°□°）╯︵ ┻━┻";
-        });
+        .catch(()=>{ document.getElementById('weatherLoading').textContent="天气加载失败 (╯°□°）╯︵ ┻━┻"; });
     })();
 
-    // ===== 世界时间：伦敦 / 北京 / 多伦多 / 东京 =====
-    function pad(n) {
-      return n < 10 ? '0' + n : '' + n;
+    function pad(n){return n<10?'0'+n:''+n;}
+
+    function updateWorldTime(){
+      const now=new Date();
+      const utcMs=now.getTime()+now.getTimezoneOffset()*60000;
+      function time(offset){ const t=new Date(utcMs+offset*3600000); return pad(t.getHours())+":"+pad(t.getMinutes()); }
+      document.getElementById('time-lon').textContent=time(0);
+      document.getElementById('time-bj').textContent=time(8);
+      document.getElementById('time-tor').textContent=time(-5);
+      document.getElementById('time-tyo').textContent=time(9);
     }
-
-    function updateWorldTime() {
-      const now = new Date();
-      const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-
-      function timeForOffset(offsetHours) {
-        const d = new Date(utcMs + offsetHours * 3600000);
-        return pad(d.getHours()) + ':' + pad(d.getMinutes());
-      }
-
-      // 当前季节假定：伦敦 GMT（UTC+0），多伦多 UTC-5，北京 UTC+8，东京 UTC+9
-      document.getElementById('time-lon').textContent = timeForOffset(0);
-      document.getElementById('time-bj').textContent  = timeForOffset(8);
-      document.getElementById('time-tor').textContent = timeForOffset(-5);
-      document.getElementById('time-tyo').textContent = timeForOffset(9);
-    }
-
     updateWorldTime();
-    // 每分钟更新一次时间
-    setInterval(updateWorldTime, 60000);
+    setInterval(updateWorldTime,60000);
   </script>
 </body>
 </html>
